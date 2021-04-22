@@ -73,7 +73,7 @@ def store_detail(store_id):
     # - update the GroceryStore object and save it to the database,
     # - flash a success message, and
     # - redirect the user to the store detail page.
-    form.validate_on_submit():
+    if form.validate_on_submit():
         store.title = form.title.data
         store.address = form.address.data
         db.session.add(store)
@@ -96,7 +96,7 @@ def item_detail(item_id):
     # - update the GroceryItem object and save it to the database,
     # - flash a success message, and
     # - redirect the user to the item detail page.
-    form.validate_on_submit():
+    if form.validate_on_submit():
         item.name = form.name.data
         item.price = form.price.data
         item.category = form.category.data
