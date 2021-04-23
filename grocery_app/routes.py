@@ -34,7 +34,7 @@ def new_store():
         db.session.commit()
         
         flash('success')
-        return redirect(url_for('main.store_detail')) 
+        return redirect(url_for('main.store_detail', store_id = grocery_store.id)) 
 
     # TODO: Send the form to the template and use it to render the form fields
     return render_template('new_store.html', form=form)
@@ -53,13 +53,14 @@ def new_item():
             name = form.name.data,
             price = form.price.data,
             category = form.category.data,
-            photo_url = form.photo_url.data
+            photo_url = form.photo_url.data,
+            store_id = form.store.data.id
         )
         db.session.add(grocery_item)
         db.session.commit()
 
         flash('success')
-        return redirect(url_for('main.item_detail')) 
+        return redirect(url_for('main.item_detail', item_id = grocery_item.id)) 
 
     # TODO: Send the form to the template and use it to render the form fields
     return render_template('new_item.html', form=form)
@@ -81,7 +82,7 @@ def store_detail(store_id):
         db.session.commit()
 
         flash("success")
-        return redirect(url_for('main.store_detail')) 
+        return redirect(url_for('main.store_detail', store_id = grocery_store.id)) 
 
     # TODO: Send the form to the template and use it to render the form fields
     store = GroceryStore.query.get(store_id)
@@ -106,7 +107,7 @@ def item_detail(item_id):
         db.session.commit() 
 
         flash("success")
-        return redirect(url_for('main.item_detail'))        
+        return redirect(url_for('main.item_detail', item_id = grocery_item.id))        
 
     # TODO: Send the form to the template and use it to render the form fields
     item = GroceryItem.query.get(item_id)
