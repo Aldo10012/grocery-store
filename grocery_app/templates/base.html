@@ -19,7 +19,7 @@
                     <a href="/new_item">New Item</a>
                     
                     <!-- Should only appear to loged out users -->
-                    {% if current_user.is_authenticated %}
+                    {% if not current_user.is_authenticated %}
                     <a href="/login">Log In</a>
                     <a href="/signup">Sign up</a>
 
