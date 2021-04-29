@@ -30,8 +30,7 @@ class GroceryItem(db.Model):
     price = db.Column(db.Float(precision=2), nullable=False)
     category = db.Column(db.Enum(ItemCategory), default=ItemCategory.OTHER)
     photo_url = db.Column(URLType)
-    store_id = db.Column(
-        db.Integer, db.ForeignKey('grocery_store.id'), nullable=False)
+    store_id = db.Column(db.Integer, db.ForeignKey('grocery_store.id'), nullable=False)
     store = db.relationship('GroceryStore', back_populates='items')
     
     # add relationship to user
@@ -39,13 +38,13 @@ class GroceryItem(db.Model):
     created_by = db.relationship('User', secondary='shopping_list', back_populates='shopping_list_items')
 
 class User(UserMixin,db.Model):
+    """User Model"""
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False) # cannot be null, MUST be entered
     password = db.Column(db.String(100), nullable=False) # cannot be null, MUST be entered
 
     shopping_list_items = db.relationship("GroceryItem", secondary='shopping_list', back_populates='created_by')
 
-# shopping_list_table
 shopping_list_table = db.Table('shopping_list',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('grocery_item_id', db.Integer, db.ForeignKey('grocery_item.id'))

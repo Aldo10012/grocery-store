@@ -26,13 +26,7 @@ def homepage():
 @main.route('/new_store', methods=['GET', 'POST'])
 @login_required
 def new_store():
-    # TODO: Create a GroceryStoreForm
     form = GroceryStoreForm()
-
-    # TODO: If form was submitted and was valid:
-    # - create a new GroceryStore object and save it to the database,
-    # - flash a success message, and
-    # - redirect the user to the store detail page.
     if form.validate_on_submit():
         grocery_store = GroceryStore(title=form.title.data, address=form.address.data)
         grocery_store.created_by = current_user   # adding flask_login.current_user as creator
@@ -42,19 +36,13 @@ def new_store():
         flash('success')
         return redirect(url_for('main.store_detail', store_id = grocery_store.id)) 
 
-    # TODO: Send the form to the template and use it to render the form fields
     return render_template('new_store.html', form=form)
 
 @main.route('/new_item', methods=['GET', 'POST'])
 @login_required
 def new_item():
-    # TODO: Create a GroceryItemForm
     form = GroceryItemForm()
 
-    # TODO: If form was submitted and was valid:
-    # - create a new GroceryItem object and save it to the database,
-    # - flash a success message, and
-    # - redirect the user to the item detail page.
     if form.validate_on_submit():
         grocery_item = GroceryItem(
             name = form.name.data,
@@ -70,20 +58,14 @@ def new_item():
         flash('success')
         return redirect(url_for('main.item_detail', item_id = grocery_item.id)) 
 
-    # TODO: Send the form to the template and use it to render the form fields
     return render_template('new_item.html', form=form)
 
 @main.route('/store/<store_id>', methods=['GET', 'POST'])
 @login_required
 def store_detail(store_id):
     store = GroceryStore.query.get(store_id)
-    # TODO: Create a GroceryStoreForm and pass in `obj=store`
     form = GroceryStoreForm(obj=store)
 
-    # TODO: If form was submitted and was valid:
-    # - update the GroceryStore object and save it to the database,
-    # - flash a success message, and
-    # - redirect the user to the store detail page.
     if form.validate_on_submit():
         store.title = form.title.data
         store.address = form.address.data
@@ -93,7 +75,6 @@ def store_detail(store_id):
         flash("success")
         return redirect(url_for('main.store_detail', store_id = grocery_store.id)) 
 
-    # TODO: Send the form to the template and use it to render the form fields
     store = GroceryStore.query.get(store_id)
     return render_template('store_detail.html', store=store, form=form)
 
@@ -101,13 +82,8 @@ def store_detail(store_id):
 @login_required
 def item_detail(item_id):
     item = GroceryItem.query.get(item_id)
-    # TODO: Create a GroceryItemForm and pass in `obj=item`
     form = GroceryItemForm(obj=item)
 
-    # TODO: If form was submitted and was valid:
-    # - update the GroceryItem object and save it to the database,
-    # - flash a success message, and
-    # - redirect the user to the item detail page.
     if form.validate_on_submit():
         item.name = form.name.data
         item.price = form.price.data
@@ -119,7 +95,6 @@ def item_detail(item_id):
         flash("success")
         return redirect(url_for('main.item_detail', item_id = grocery_item.id))        
 
-    # TODO: Send the form to the template and use it to render the form fields
     item = GroceryItem.query.get(item_id)
     return render_template('item_detail.html', item=item, form=form)
 
@@ -139,7 +114,6 @@ def add_to_shopping_list(item_id):
 
 @main.route('/remove_from_shopping_list/<item_id>', methods=['POST'])
 def remove_from_shopping_list(item_id):
-    # ... adds item to current_user's shopping list
     item = GroceryItem.query.get(item_id)
     if item in current_user.shopping_list_items:
         current_user.shopping_list_items.remove(item)
@@ -154,8 +128,6 @@ def remove_from_shopping_list(item_id):
 @main.route('/shopping_list')
 @login_required
 def shopping_list():
-    # ... get logged in user's shopping list items ...
-    # ... display shopping list items in a template ...
     shopping_list = current_user.shopping_list_items
     return render_template('shopping_list.html', shopping_list=shopping_list)
 
