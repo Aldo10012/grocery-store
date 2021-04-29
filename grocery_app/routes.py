@@ -151,6 +151,14 @@ def remove_from_shopping_list(item_id):
 
     return "Not yet implemented!"
 
+@main.route('/shopping_list')
+@login_required
+def shopping_list():
+    # ... get logged in user's shopping list items ...
+    # ... display shopping list items in a template ...
+    shopping_list = current_user.shopping_list_items
+    return render_template('shopping_list.html', shopping_list=shopping_list)
+
 
 auth = Blueprint("auth", __name__)
 
