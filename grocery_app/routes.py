@@ -123,6 +123,35 @@ def item_detail(item_id):
     item = GroceryItem.query.get(item_id)
     return render_template('item_detail.html', item=item, form=form)
 
+@main.route('/add_to_shopping_list/<item_id>', methods=['POST'])
+def add_to_shopping_list(item_id):
+    # ... adds item to current_user's shopping list
+    item = GroceryItem.query.get(item_id)
+    if item not in current_user.shopping_list_items:
+        current_user.shopping_list_items.append(item)
+        db.session.add(item)
+        db.session.commit()
+
+        flash('Item was added to shopping list successfuly')
+        return redirect(url_for('main.item_detail', item_id=item.id))
+
+    return "Not yet implemented!"
+
+@main.route('/remove_from_shopping_list/<item_id>', methods=['POST'])
+def remove_from_shopping_list(item_id):
+    # ... adds item to current_user's shopping list
+    item = GroceryItem.query.get(item_id)
+    if item in current_user.shopping_list_items:
+        current_user.shopping_list_items.remove(item)
+        db.session.add(item)
+        db.session.commit()
+
+        flash('Item was removed to shopping list successfuly')
+        return redirect(url_for('main.item_detail', item_id=item.id))
+
+    return "Not yet implemented!"
+
+
 auth = Blueprint("auth", __name__)
 
 ##########################################

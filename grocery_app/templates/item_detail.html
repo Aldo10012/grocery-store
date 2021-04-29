@@ -12,6 +12,22 @@
 
 <p><strong>Store:</strong> {{ item.store.title }}</p>
 
+<p><strong>Add / Remove</strong> from shopping list</p>
+<!-- Show this only if the user is logged in and the item IS NOT in their shoping list-->
+{% if (current_user.is_authenticated) and not (item in current_user.shopping_list_items) %}
+<form action="/add_to_shopping_list/{{ item.id }}" method="POST">
+    <input type="submit" value="Add">
+</form>
+{% endif %}
+
+<!-- Show this only if the user is logged in and the item IS in their shoping list-->
+{% if current_user.is_authenticated and item in current_user.shopping_list_items %}
+<form action="/remove_from_shopping_list/{{ item.id }}" method="POST">
+    <input type="submit" value="Remove">
+</form>
+{% endif %}
+
+
 
 <h2>Edit Item</h2>
 
